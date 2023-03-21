@@ -2,9 +2,9 @@
   "name": "spoty-coffee-music-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/app.js",
   "scripts": {
-    "test": "mocha"
+    "dev": "SET NODE_ENV=development& nodemon ./src/app.js"
   },
   "author": "Santiago Jorda",
   "license": "ISC",
