@@ -6,6 +6,7 @@ const querystring = require('querystring')
 const creds = require('../services/spotify/credentials')
 const base64 = require('base-64');
 const { devMessage } = require('../utils/dev')
+const fs = require('fs')
 
 const SPOTY_AUTH_URL = 'https://accounts.spotify.com'
 const SPOTY_AUTH_PATH = SPOTY_AUTH_URL + '/authorize?'
@@ -40,7 +41,7 @@ router.get('/spotify/login', (req, res) => {
     )
 })
 
-router.get('/spotify/callback', (req, res) => {
+router.get('/spotify/callback', async (req, res) => {
     let code = req.query.code || null;
     console.log(code)
     if (code === null) {
@@ -51,7 +52,7 @@ router.get('/spotify/callback', (req, res) => {
     } 
     
     else {
-      superagent
+      await superagent
         .post(SPOTY_TOKEN_PATH)
         .send({
           code: code,
@@ -82,9 +83,9 @@ router.get('/spotify/callback', (req, res) => {
     }
 })
 
-router.get(`/spotify/add`, (req, res) => {
+router.get(`/spotify/add`, async (req, res) => {
     console.log(`access_token: ${access_token}`)
-    superagent
+    await superagent
         .post("https://api.spotify.com/v1/me/player/queue?" + 
             querystring.stringify({
                 uri: 'spotify:track:5f2ZVFERwwh3asebmurZEf'
@@ -98,17 +99,37 @@ router.get(`/spotify/add`, (req, res) => {
 
 })
 
-router.get(`/spotify/saveCover`, (req, res) => {
+router.get(`/spotify/saveCover`, async (req, res) => {
+
+    const fileName = 'portada.jpg'
     const playlist_id_test = '5odKqjjuFtyv92914WvX0p'
-    superagent
-        .post(`https://api.spotify.com/v1/playlists/${playlist_id_test}/images`)
+    let coverUrl = ''
+    await superagent
+        .get(`https://api.spotify.com/v1/playlists/${playlist_id_test}/images`)
         .use(setBearerAuthorizationHeader(access_token))
         .use(setJsonContentType)
-        .end((err, response) => {
-            // console.log(response)
-            res.send(response.body.url)
+        .end(async (err, response) => {
+            if(err) console.log(`error al buscar en spotify la playlist: ${err}`)
+            coverUrl = await response.body[0].url
+            console.log(`url obtenida: ${coverUrl}`)      
+            if(coverUrl){
+                console.log(`url leida: ${coverUrl}`)
+                await superagent
+                    .get(coverUrl)
+                    .end( (err, res) => {
+                        console.log(res); // body is Buffer
+                        if(err) console.log(`error al descargar la imagen portada: ${err}`)
+                        fs.writeFile(fileName, res.body, (err) => {
+                            if(err) console.log(`error al escribir la imagen portada: ${err}`)
+                            else console.log(`La imagen ${fileName} ha sido descargada exitosamente`)
+                        })
+                    })
+            }   
         })
 
+        
+   
+    res.send('descarga imagen')
 })
 
 

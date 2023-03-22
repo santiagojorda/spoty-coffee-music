@@ -1,3 +1,4 @@
 server/node_modules
 server/src/config/.env.development
 server/src/services/spotify/credentials.js
+server/src/public/playlist-covers
