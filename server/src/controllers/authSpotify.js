@@ -1,19 +1,21 @@
 const SPOTIFY_EP = require('../services/spotify/spotyEndpoints')
-const {devMessage} = require('../utils/dev')
+const {devMessage, devTitle} = require('../utils/dev')
 const SPOTY_CREDS = require('../services/spotify/credentials')
-const queryString = require('querystring')
 
 const authSpotifyCntrl = (req, res) => {
-    devMessage('AUTH SPOTIFY')  
+    devTitle('SPOTIFY AUTH')
     
-    res.redirect(SPOTIFY_EP.AUTH + 
-        queryString.stringify({
-            response_type: 'code',
-            client_id: SPOTY_CREDS.CLIENT_ID,
-            redirect_uri: SPOTY_CREDS.REDIRECT_URI,
-            scope: SPOTY_CREDS.SCOPES
-        })
-    )
+    const auth_object_query = {
+        response_type: 'code',
+        client_id: SPOTY_CREDS.CLIENT_ID,
+        redirect_uri: SPOTY_CREDS.REDIRECT_URI,
+        scope: SPOTY_CREDS.SCOPES
+    }
+
+    const auth_query = '?' + new URLSearchParams(auth_object_query).toString()
+    devMessage(SPOTIFY_EP.AUTH + auth_query)
+    
+    res.redirect(SPOTIFY_EP.AUTH + auth_query)
 }
 
 

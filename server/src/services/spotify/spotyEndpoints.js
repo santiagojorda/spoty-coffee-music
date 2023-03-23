@@ -1,7 +1,7 @@
 const SPOTIFY_EP = () => {
     const ACCOUNT = 'https://accounts.spotify.com/';
     const AUTH = ACCOUNT + 'authorize';
-    const TOKEN = AUTH + '/api/token';
+    const TOKEN = ACCOUNT + 'api/token';
     const API = 'https://api.spotify.com/v1/';
     const PLAYER_QUEUE = API + 'me/player/queue';
   

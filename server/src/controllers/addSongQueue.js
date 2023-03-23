@@ -1,11 +1,11 @@
-const {setBearerAuthorizationHeader, setJsonContentType} = require('../utils/httpUtils')
-const SPOTIFY_EP = require('../services/spotify/spotyEndpoints')
 const request = require('superagent')
 
-const addSongQueueCntrl = async (req, res) => {
-    devMessage('SPOTIFY ADD SONG TO QUEUE')
-    const access_token = 'this is a accesstoken trucho'
-    console.log(`access_token: ${access_token}`)
+const SPOTIFY_EP = require('../services/spotify/spotyEndpoints')
+const {setBearerAuthorizationHeader, setJsonContentType} = require('../utils/httpUtils')
+const {devMessage, devTitle} = require('../utils/dev')
+
+const addSongQueueCntrl = async (access_token) => {
+    devTitle('SPOTIFY ADD SONG TO QUEUE')
 
     await request
         .post(SPOTIFY_EP.PLAYER_QUEUE)
@@ -14,7 +14,7 @@ const addSongQueueCntrl = async (req, res) => {
         .type(setJsonContentType)
         .then((res) => {
             // console.log(response)
-            res.send(res.body)
+            devMessage(`song added to queue`)
         })
 
 }

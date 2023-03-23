@@ -1,4 +1,4 @@
-const { devMessage } = require('../utils/dev')
+const { devTitle } = require('../utils/dev')
 
 /*  DEPENDENCIES: dotenv
     ENVIROMENT_VARIABLES_PATH contains the path of the files and initial name of the files of environment:
@@ -13,4 +13,4 @@ const ENVIROMENT_VARIABLES_PATH = 'src/config/.env.'
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development' 
 require('dotenv').config({ path: ENVIROMENT_VARIABLES_PATH + process.env.NODE_ENV})
-devMessage("ENVIRONMENT: " + process.env.NODE_ENV)
+devTitle("ENVIRONMENT: " + process.env.NODE_ENV)
