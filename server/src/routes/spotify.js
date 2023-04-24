@@ -10,6 +10,9 @@ router.get('/callback', callbackSpotifyCntrl)
 const addSongQueueCntrl = require('../controllers/addSongQueue')
 router.get(`/add`, addSongQueueCntrl) 
 
+const getCover = require('../controllers/getCover')
+router.get(`/getCover`, getCover) 
+
 // const fs = require('fs')
 
 // router.get(`/spotify/saveCover`, async (req, res) => {

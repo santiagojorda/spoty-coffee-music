@@ -1,34 +1,30 @@
 const request = require('superagent')
-
 const SPOTIFY_EP = require('../services/spotify/spotyEndpoints')
+const { devMessage, devTitle } = require('../utils/dev')
 const {setBearerAuthorizationHeader, setJsonContentType} = require('../utils/httpUtils')
-const {devMessage, devTitle} = require('../utils/dev')
+const SPOTY_CREDS = require('../services/spotify/credentials')
 
+const getCover = async (req, res) => {
 
-const addSongQueueCntrl = async (req, res) => {
-
-    devTitle('SPOTIFY ADD SONG TO QUEUE')
+    devTitle('SPOTIFY GET COVER')
 
     if(!global.access_token){
         devMessage('SPOTIFY IS NOT CONNECTED')
         res.redirect('/')
     }
     else{
-        const track_id = req.query.track_id || '4iV5W9uYEdYUVa79Axb7Rh'
+        const coverId = '4tOHIgXJpcpK6I7dh6jI6h'
     
         await request
-            .post(SPOTIFY_EP.PLAYER_QUEUE)
-            .query({ uri: `spotify:track:${track_id}` })
+            .get(SPOTIFY_EP.PLAYLIST + `${coverId}/images`)
             .use(setBearerAuthorizationHeader(global.access_token))
             .type(setJsonContentType)
             .then((res) => {
-                // console.log(res)
+                console.log(res)
                 devMessage(`song added to queue`)
             })
     }
 
-
-
 }
 
-module.exports = addSongQueueCntrl
+module.exports = getCover

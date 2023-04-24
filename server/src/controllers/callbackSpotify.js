@@ -3,7 +3,6 @@ const SPOTIFY_EP = require('../services/spotify/spotyEndpoints')
 const { devMessage, devTitle } = require('../utils/dev');
 const {setBasicAuthorizationHeader, setFormContentType} = require('../utils/httpUtils')
 const SPOTY_CREDS = require('../services/spotify/credentials');
-const addSongQueueCntrl = require('./addSongQueue');
 
 const callbackSpotifyCntrl = async (req, res) => {
     devTitle('SPOTIFY AUTH CALLBACK')
