@@ -5,3 +5,5 @@ server/src/public/playlist-covers
 
 client/node_modules
 client/build
+
+.vscode

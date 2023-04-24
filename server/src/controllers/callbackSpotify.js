@@ -30,14 +30,14 @@ const callbackSpotifyCntrl = async (req, res) => {
                 if (res.statusCode === 200) {
                     const body = res.body
 
-                    //guardar en la base de datos
-                    const access_token = body.access_token    
-                    const refresh_token = body.refresh_token
-                    const expires_in = body.expires_in
-                    devMessage(`ACCESS_TOKEN: ${access_token}`)
-                    devMessage(`REFRESH_TOKEN: ${refresh_token}`)
-                    await addSongQueueCntrl(access_token)
-                    
+                    //guardar en la base de datos ??
+                    global.access_token = body.access_token
+                    global.refresh_token = body.refresh_token
+                    global.expires_in = body.expires_in
+
+                    devMessage(`ACCESS_TOKEN: ${global.access_token}`)
+                    devMessage(`REFRESH_TOKEN: ${global.refresh_token}`)
+
                     // res.send('callback')
                     // CALLBACK CLIENT SIDE 
                     // res.redirect(`http://localhost:3000/callback?`+ 
