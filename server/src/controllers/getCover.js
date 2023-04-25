@@ -13,15 +13,21 @@ const getCover = async (req, res) => {
         res.redirect('/')
     }
     else{
-        const coverId = '4tOHIgXJpcpK6I7dh6jI6h'
+        const playlistId = req.query.playlist_id || '4tOHIgXJpcpK6I7dh6jI6h'
     
         await request
-            .get(SPOTIFY_EP.PLAYLIST + `${coverId}/images`)
+            .get(SPOTIFY_EP.PLAYLIST + `${playlistId}/images`)
             .use(setBearerAuthorizationHeader(global.access_token))
             .type(setJsonContentType)
-            .then((res) => {
-                console.log(res)
-                devMessage(`song added to queue`)
+            .then((response) => {
+                // console.log(res)
+                devMessage(`Cover obtained`)
+                console.log(response.body)
+                const cover = response.body[0]
+                res.status(200).json({
+                    id: playlistId,
+                    url: cover.url
+                })
             })
     }
 

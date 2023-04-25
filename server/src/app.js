@@ -1,7 +1,8 @@
 const express = require('express')
+const cors = require('cors')
 const { devTitle } = require('./utils/dev')
 const app = express()
-
+app.use(cors())
 devTitle('---- ---- ---- ----')
 devTitle('INITIALIZING SERVER')
 
