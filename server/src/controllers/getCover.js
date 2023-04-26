@@ -8,7 +8,7 @@ const getCover = async (req, res) => {
 
     devTitle('SPOTIFY GET COVER')
 
-    if(!global.access_token){
+    if(!global.accessToken){
         devMessage('SPOTIFY IS NOT CONNECTED')
         res.redirect('/')
     }
@@ -17,7 +17,7 @@ const getCover = async (req, res) => {
     
         await request
             .get(SPOTIFY_EP.PLAYLIST + `${playlistId}/images`)
-            .use(setBearerAuthorizationHeader(global.access_token))
+            .use(setBearerAuthorizationHeader(global.accessToken))
             .type(setJsonContentType)
             .then((response) => {
                 // console.log(res)

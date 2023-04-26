@@ -1,8 +1,13 @@
 const express = require('express')
-const cors = require('cors')
-const { devTitle } = require('./utils/dev')
 const app = express()
+
+const bodyParser = require('body-parser')
+app.use(bodyParser.json());
+
+const cors = require('cors')
 app.use(cors())
+
+const { devTitle } = require('./utils/dev')
 devTitle('---- ---- ---- ----')
 devTitle('INITIALIZING SERVER')
 
@@ -15,7 +20,7 @@ app.listen(PORT, HOST, () => {
     devTitle(`SERVER INITIALIZED SUCCESSFULLY ON: ${HOST}:${PORT}`)
 })
 
-if(!global.access_token){
+if(!global.accessToken){
     const spotyAuth = require('./controllers/authSpotify')
     app.get('/', (req, res) => {
         spotyAuth(req,res)

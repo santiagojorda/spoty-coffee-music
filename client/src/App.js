@@ -1,48 +1,35 @@
 import { useEffect, useState } from 'react'
+import SuperAgent from 'superagent'
 
 function App() {
 
-  const [covers, setCovers] = useState([])
-  
+  const  [playlists, setPlaylists] = useState(null)
   useEffect(() => {
-    const track_id = '6qOFCV5N40knhOFTwVw7C2'
-    
+
     const getCovers = async () => {
       console.log('descargando covers')
-      const data = await fetch(`http://localhost:4000/spotify/getCover?playlist_id=${track_id}`)
-        .then(res => res.json())
-      console.log(data)
-      setCovers(prev => [...prev, data])
+
+      const PLAYLISTS_ENDOPOINT = 'http://localhost:4000/spotify/getPlaylists'
+      await SuperAgent
+        .post(PLAYLISTS_ENDOPOINT)
+        .send({
+          id: [
+            '5odKqjjuFtyv92914WvX0p', // coffee-music-spotify
+            '6qOFCV5N40knhOFTwVw7C2', // 🥤
+            '32vUazbtFYfFHucpjhSTUk', // vans
+            '4tOHIgXJpcpK6I7dh6jI6h'  // neosoul
+          ] 
+        })
+        .type('application/json')
+        .then( response => {
+          const playlistsData = response.body
+          console.log(playlistsData)
+        })
+        .catch( err => console.log(err))
     }
 
     getCovers()
   }, [])
-
-  useEffect( () => {
-    console.log('actual covers:')
-    console.log(covers)
-  } ,[covers])
-
-
-  const renderCovers = () => {
-    if (covers.length > 1) {
-      console.log('hay mas de 1 playlist')
-      covers.map( cover => {
-        return <>
-          <div className="col-4">
-            <img key={cover.id} src={cover.url} />
-          </div>
-        </>
-      })
-    }  
-
-    else 
-      return <>
-        <div className="col-4">
-          no hay playlists
-        </div>
-      </>
-  }
 
   return (
     <div className="App">
@@ -53,7 +40,7 @@ function App() {
         <div className="row">
           <div className="col-6 left">
             {
-              covers.length > 0 ? <img src={covers[0].url}/> : <p>cargando</p> 
+              // !covers ? <img src={covers[0].url}/> : <p>cargando</p> 
             }
 
           </div>
@@ -66,9 +53,6 @@ function App() {
       <div className="container">
         <div className="row">
 
-          {
-            renderCovers()
-          }
         </div>
       </div>
       

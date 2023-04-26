@@ -30,12 +30,12 @@ const callbackSpotifyCntrl = async (req, res) => {
                     const body = res.body
 
                     //guardar en la base de datos ??
-                    global.access_token = body.access_token
-                    global.refresh_token = body.refresh_token
-                    global.expires_in = body.expires_in
+                    global.accessToken = body.access_token
+                    global.refreshToken = body.refresh_token
+                    global.expiresIn = body.expires_in
 
-                    devMessage(`ACCESS_TOKEN: ${global.access_token}`)
-                    devMessage(`REFRESH_TOKEN: ${global.refresh_token}`)
+                    devMessage(`ACCESS_TOKEN: ${global.accessToken}`)
+                    devMessage(`REFRESH_TOKEN: ${global.refreshToken}`)
 
                     // res.send('callback')
                     // CALLBACK CLIENT SIDE 

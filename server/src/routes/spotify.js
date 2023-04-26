@@ -13,6 +13,9 @@ router.get(`/add`, addSongQueueCntrl)
 const getCover = require('../controllers/getCover')
 router.get(`/getCover`, getCover) 
 
+const getPlaylists = require('../controllers/getPlaylists')
+router.post(`/getPlaylists`, getPlaylists) 
+
 // const fs = require('fs')
 
 // router.get(`/spotify/saveCover`, async (req, res) => {

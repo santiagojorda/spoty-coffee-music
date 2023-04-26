@@ -9,7 +9,7 @@ const addSongQueueCntrl = async (req, res) => {
 
     devTitle('SPOTIFY ADD SONG TO QUEUE')
 
-    if(!global.access_token){
+    if(!global.accessToken){
         devMessage('SPOTIFY IS NOT CONNECTED')
         res.redirect('/')
     }
@@ -19,7 +19,7 @@ const addSongQueueCntrl = async (req, res) => {
         await request
             .post(SPOTIFY_EP.PLAYER_QUEUE)
             .query({ uri: `spotify:track:${track_id}` })
-            .use(setBearerAuthorizationHeader(global.access_token))
+            .use(setBearerAuthorizationHeader(global.accessToken))
             .type(setJsonContentType)
             .then((res) => {
                 // console.log(res)
