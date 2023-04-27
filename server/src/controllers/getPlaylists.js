@@ -13,13 +13,13 @@ const getPlaylists = async (req, res) => {
     }
     else {
 
-        console.log(req.body.id)
+        // console.log(req.body.id)
         const playlistIds = req.body.id 
         
         const QUERY_REQUEST = '?fields=name,description,uri,images(url),tracks.items(track(id,name,album(images),artists(name)))'
         const PLAYLIST_ENDPOINT = 'https://api.spotify.com/v1/playlists/'
         const playlists = []
-        console.log(playlistIds)
+        // console.log(playlistIds)
         let isOk = true
         for(const id of playlistIds){
             console.log(id)
@@ -28,8 +28,10 @@ const getPlaylists = async (req, res) => {
                 .type(setJsonContentType)
                 .use(setBearerAuthorizationHeader(global.accessToken))
                 .then( response => { 
-                    console.log(`playlist obtained: ${id}`)
-                    playlists.push(response.body)
+                    if(response.statusCode == 200 ){
+                        console.log(`playlist obtained: ${id}`)
+                        playlists.push(response.body)
+                    }
                 })
                 .catch( err => {
                     console.log(err)

@@ -23,7 +23,9 @@ const addSongQueueCntrl = async (req, res) => {
             .type(setJsonContentType)
             .then((res) => {
                 // console.log(res)
-                devMessage(`song added to queue`)
+                if(response.statusCode == 200 ){
+                    devMessage(`song added to queue`)
+                }
             })
             .catch(err => console.log(err))
 

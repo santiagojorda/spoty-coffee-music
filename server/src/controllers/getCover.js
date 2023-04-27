@@ -21,13 +21,16 @@ const getCover = async (req, res) => {
             .type(setJsonContentType)
             .then((response) => {
                 // console.log(res)
-                devMessage(`Cover obtained`)
-                console.log(response.body)
-                const cover = response.body[0]
-                res.status(200).json({
-                    id: playlistId,
-                    url: cover.url
-                })
+                if(response.statusCode == 200 ){
+
+                    devMessage(`Cover obtained`)
+                    console.log(response.body)
+                    const cover = response.body[0]
+                    res.status(200).json({
+                        id: playlistId,
+                        url: cover.url
+                    })
+                }
             })
             .catch(err => console.log(err))
     }
