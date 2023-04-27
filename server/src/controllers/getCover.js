@@ -29,6 +29,7 @@ const getCover = async (req, res) => {
                     url: cover.url
                 })
             })
+            .catch(err => console.log(err))
     }
 
 }

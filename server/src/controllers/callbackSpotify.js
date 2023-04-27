@@ -25,7 +25,7 @@ const callbackSpotifyCntrl = async (req, res) => {
             })
             .type(setFormContentType)
             .use(setBasicAuthorizationHeader)
-            .then( async res => {
+            .then( res => {
                 if (res.statusCode === 200) {
                     const body = res.body
 
@@ -46,7 +46,9 @@ const callbackSpotifyCntrl = async (req, res) => {
                     //         expires_in: body.expires_in
                     //     }))
                 }
-            });
+            })
+            .catch(err => console.log(err))
+
     }
 }
 

@@ -25,6 +25,8 @@ const addSongQueueCntrl = async (req, res) => {
                 // console.log(res)
                 devMessage(`song added to queue`)
             })
+            .catch(err => console.log(err))
+
     }
 
 
