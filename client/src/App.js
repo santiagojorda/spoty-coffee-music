@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from 'react'
 import SuperAgent from 'superagent'
 
-import TrackList from './components/TrackList'
-import MainPlaylist from './components/MainPlaylist'
-import PlaylistList from './components/PlaylistList'
+import TrackList from './components/trackList/TrackList'
+import MainPlaylist from './components/mainPlaylist/MainPlaylist'
+import PlaylistList from './components/playlistsList/PlaylistList'
 
 import { PlaylistsContext } from './contexts/PlaylistsContext'
 
@@ -53,19 +53,9 @@ function App() {
   return (
     <div className="App">
 
-      <div className="container main-playlist">
-        <div className="row">
-          <div className="col-6 left">
-            {playlists ? <MainPlaylist playlist={playlists[0]}/> : <>cargando Main Cover</>}
-          </div>
-          <div className="col-6 right">
-            {playlists ? <TrackList tracks={playlists[0].tracks.items} /> : <>cargando Track List</>}
-          </div>
-        </div>
-      </div>
-
-      <PlaylistsContext.Provider value={{changeMainPlaylist}}>
-        <PlaylistList playlists={playlists} />
+      <PlaylistsContext.Provider value={{playlists, changeMainPlaylist}}>
+        <MainPlaylist />
+        <PlaylistList/>
       </PlaylistsContext.Provider>
 
     </div>

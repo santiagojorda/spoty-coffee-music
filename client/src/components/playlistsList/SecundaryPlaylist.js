@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { PlaylistsContext } from "../contexts/PlaylistsContext"
+import { PlaylistsContext } from "../../contexts/PlaylistsContext"
 
 export default function SecundaryPlaylist({playlist, actualPosition}) {
 

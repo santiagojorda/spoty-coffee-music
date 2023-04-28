@@ -1,6 +1,10 @@
+import { useContext } from "react"
 import SecundaryPlaylist from "./SecundaryPlaylist"
+import { PlaylistsContext } from "../../contexts/PlaylistsContext"
 
-export default function PlaylistList({playlists}) {
+export default function PlaylistList() {
+
+    const {playlists} = useContext(PlaylistsContext)
 
     const renderPlaylists = () => {
         const items  = playlists.map( (playlist, i) => {
