@@ -1,5 +1,11 @@
-import { useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import SuperAgent from 'superagent'
+
+import TrackList from './components/TrackList'
+import MainPlaylist from './components/MainPlaylist'
+import PlaylistList from './components/PlaylistList'
+
+import { PlaylistsContext } from './contexts/PlaylistsContext'
 
 function App() {
 
@@ -25,7 +31,6 @@ function App() {
         .type('application/json')
         .then( response => {
           const playlistsData = response.body
-          console.log(playlistsData)
           setPlaylists(playlistsData)
         })
         .catch( err => console.log(err))
@@ -34,36 +39,6 @@ function App() {
       
     getCovers()
   }, [])
-
-  const addSongToQueue = async (id) => {
-    const ADD_NEXT_SONG_ENDPOINT = 'http://localhost:4000/spotify/add'
-
-    try{
-      await fetch(ADD_NEXT_SONG_ENDPOINT + `?track_id=${id}`)
-        .then( res => {
-          console.log(`add a song id: ${id}`)
-          console.log(res)
-        })
-        .catch( err => console.log(err))
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
-
-  const renderTracks = () => {
-    const itemList = playlists[0].tracks.items.map(item => {
-      return <li style={{cursor: 'pointer'}} onClick={() => addSongToQueue(item.track.id)} key={item.track.id}> {item.track.name}</li>
-    })
-
-    return <ul>
-      {itemList}
-    </ul>
-  }
-
-  const renderMainCover = () => {
-    return <img src={playlists[0].images[0].url}/>
-  }
 
   const changeMainPlaylist = (i) => {
     const newPlaylists = playlists.slice()
@@ -75,39 +50,23 @@ function App() {
     setPlaylists(newPlaylists)
   }
 
-  const renderPlaylists = () => {
-    const items  = playlists.map( (playlist, i) => {
-      if(i > 0){
-        return <>
-          <div key={i} className='col-4'>
-            <img src={playlist.images[0].url} style={{cursor: 'pointer'}} onClick={() => changeMainPlaylist(i)} />
-          </div>
-        </>
-      }
-    })
-    return items
-  }
-
   return (
     <div className="App">
 
       <div className="container main-playlist">
         <div className="row">
           <div className="col-6 left">
-          {playlists ? renderMainCover() : <>cargando Main Cover</>}
+            {playlists ? <MainPlaylist playlist={playlists[0]}/> : <>cargando Main Cover</>}
           </div>
           <div className="col-6 right">
-            {playlists ? renderTracks() : <>cargando Track List</>}
+            {playlists ? <TrackList tracks={playlists[0].tracks.items} /> : <>cargando Track List</>}
           </div>
         </div>
       </div>
 
-      <div className="container">
-        <div className="row">
-          {playlists ? renderPlaylists() : <>cargando Track List</>}
-        </div>
-      </div>
-      
+      <PlaylistsContext.Provider value={{changeMainPlaylist}}>
+        <PlaylistList playlists={playlists} />
+      </PlaylistsContext.Provider>
 
     </div>
   );
