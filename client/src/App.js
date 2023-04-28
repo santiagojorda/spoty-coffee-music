@@ -35,12 +35,26 @@ function App() {
     getCovers()
   }, [])
 
+  const trackHandleClick = async (id) => {
+    const ADD_NEXT_SONG_ENDPOINT = 'http://localhost:4000/spotify/add'
 
+    try{
+      await fetch(ADD_NEXT_SONG_ENDPOINT + `?track_id=${id}`)
+        .then( res => {
+          console.log(`add a song id: ${id}`)
+          console.log(res)
+        })
+        .catch( err => console.log(err))
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   const renderTracks = () => {
     const itemList = playlists[0].tracks.items.map(item => {
       return <>
-        <li key={item.track.id}> {item.track.name}</li>
+        <li style={{cursor: 'pointer'}} onClick={() => trackHandleClick(item.track.id)} key={item.track.id}> {item.track.name}</li>
       </>
     })
 
@@ -54,7 +68,6 @@ function App() {
   }
 
   const renderPlaylists = () => {
-
     const playlist = playlists.slice(1)
     const items = playlist.map( playlist => { 
       return <>
@@ -63,7 +76,6 @@ function App() {
         </div>
       </>
     })
-
     return items
   }
 

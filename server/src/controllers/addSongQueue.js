@@ -21,10 +21,11 @@ const addSongQueueCntrl = async (req, res) => {
             .query({ uri: `spotify:track:${track_id}` })
             .use(setBearerAuthorizationHeader(global.accessToken))
             .type(setJsonContentType)
-            .then((res) => {
+            .then((response) => {
                 // console.log(res)
-                if(response.statusCode == 200 ){
+                if(response.statusCode == 204 ){
                     devMessage(`song added to queue`)
+                    res.status(200)
                 }
             })
             .catch(err => console.log(err))
