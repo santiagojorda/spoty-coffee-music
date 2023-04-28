@@ -35,7 +35,7 @@ function App() {
     getCovers()
   }, [])
 
-  const trackHandleClick = async (id) => {
+  const addSongToQueue = async (id) => {
     const ADD_NEXT_SONG_ENDPOINT = 'http://localhost:4000/spotify/add'
 
     try{
@@ -53,9 +53,7 @@ function App() {
 
   const renderTracks = () => {
     const itemList = playlists[0].tracks.items.map(item => {
-      return <>
-        <li style={{cursor: 'pointer'}} onClick={() => trackHandleClick(item.track.id)} key={item.track.id}> {item.track.name}</li>
-      </>
+      return <li style={{cursor: 'pointer'}} onClick={() => addSongToQueue(item.track.id)} key={item.track.id}> {item.track.name}</li>
     })
 
     return <ul>
@@ -67,14 +65,25 @@ function App() {
     return <img src={playlists[0].images[0].url}/>
   }
 
+  const changeMainPlaylist = (i) => {
+    const newPlaylists = playlists.slice()
+    
+    let aux = newPlaylists[i] 
+    newPlaylists[i] = newPlaylists[0]
+    newPlaylists[0] = aux
+
+    setPlaylists(newPlaylists)
+  }
+
   const renderPlaylists = () => {
-    const playlist = playlists.slice(1)
-    const items = playlist.map( playlist => { 
-      return <>
-        <div class='col-4'>
-          <img src={playlist.images[0].url}/>
-        </div>
-      </>
+    const items  = playlists.map( (playlist, i) => {
+      if(i > 0){
+        return <>
+          <div key={i} className='col-4'>
+            <img src={playlist.images[0].url} style={{cursor: 'pointer'}} onClick={() => changeMainPlaylist(i)} />
+          </div>
+        </>
+      }
     })
     return items
   }
