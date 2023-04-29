@@ -1,7 +1,6 @@
-import { createContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import SuperAgent from 'superagent'
 
-import TrackList from './components/trackList/TrackList'
 import MainPlaylist from './components/mainPlaylist/MainPlaylist'
 import PlaylistList from './components/playlistsList/PlaylistList'
 
