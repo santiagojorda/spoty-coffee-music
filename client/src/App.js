@@ -9,7 +9,7 @@ import { PlaylistsContext } from './contexts/PlaylistsContext'
 function App() {
 
   const  [playlists, setPlaylists] = useState(null)
-  
+
   useEffect(() => {
     let requestWasSent = false
     const getCovers = async () => {
@@ -51,12 +51,10 @@ function App() {
 
   return (
     <div className="App">
-
       <PlaylistsContext.Provider value={{playlists, changeMainPlaylist}}>
         <MainPlaylist />
         <PlaylistList/>
       </PlaylistsContext.Provider>
-
     </div>
   );
 }
